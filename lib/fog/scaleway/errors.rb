@@ -4,8 +4,8 @@ module Fog
       def self.decode_error(error)
         body = begin
                  Fog::JSON.decode(error.response.body)
-               rescue
-                 Fog::JSON::DecodeError
+               rescue Fog::JSON::DecodeError
+                 nil
                end
 
         return if body.nil?
