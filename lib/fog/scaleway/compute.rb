@@ -46,6 +46,10 @@ module Fog
       request :delete_server
       request :list_server_actions
       request :execute_server_action
+      request :list_user_data
+      request :get_user_data
+      request :update_user_data
+      request :delete_user_data
 
       # Volumes
       request :create_volume
