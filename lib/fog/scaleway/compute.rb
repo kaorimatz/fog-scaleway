@@ -7,8 +7,9 @@ module Fog
     class Compute < Fog::Service
       class InvalidRequestError < Error; end
       class InvalidAuth < Error; end
-      class UnknownResource < Error; end
       class AuthorizationRequired < Error; end
+      class UnknownResource < Error; end
+      class Conflict < Error; end
       class APIError < Error; end
 
       requires :scaleway_token
@@ -124,7 +125,7 @@ module Fog
           message = decoded[:message]
 
           raise case type
-                when 'invalid_request_error', 'invalid_auth', 'unknown_resource', 'authorization_required'
+                when 'invalid_request_error', 'invalid_auth', 'authorization_required', 'unknown_resource', 'conflict'
                   Fog::Scaleway::Compute.const_get(camelize(type)).slurp(error, message)
                 when 'api_error'
                   Fog::Scaleway::Compute::APIError.slurp(error, message)
