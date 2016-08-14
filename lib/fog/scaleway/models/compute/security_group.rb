@@ -4,7 +4,7 @@ module Fog
       class SecurityGroup < Fog::Model
         identity :id
 
-        attribute :description, default: ''
+        attribute :description
         attribute :enable_default_security
         attribute :name
         attribute :organization
@@ -46,9 +46,14 @@ module Fog
         private
 
         def create
-          requires :name, :description
+          requires :name
 
-          if (security_group = service.create_security_group(name, description).body['security_group'])
+          options = {}
+          options[:description] = description unless description.nil?
+          options[:enable_default_security] = enable_default_security unless enable_default_security.nil?
+          options[:organization_default] = organization_default unless organization_default.nil?
+
+          if (security_group = service.create_security_group(name, options).body['security_group'])
             merge_attributes(security_group)
             true
           else
