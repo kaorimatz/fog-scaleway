@@ -39,7 +39,7 @@ module Fog
 
         def create
           options = {}
-          options[:server] = server unless server.nil?
+          options[:server] = server.identity unless server.nil?
 
           if (ip = service.create_ip(options).body['ip'])
             merge_attributes(ip)
