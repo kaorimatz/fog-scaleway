@@ -56,7 +56,10 @@ module Fog
         def create
           requires :name, :arch, :root_volume
 
-          if (image = service.create_image(name, arch, root_volume.identity).body['image'])
+          options = {}
+          options[:default_bootscript] = default_bootscript.identity unless default_bootscript.nil?
+
+          if (image = service.create_image(name, arch, root_volume.identity, options).body['image'])
             merge_attributes(image)
             true
           else
