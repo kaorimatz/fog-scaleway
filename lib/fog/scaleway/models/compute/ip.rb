@@ -52,7 +52,10 @@ module Fog
         def update
           requires :identity
 
-          if (ip = service.update_ip(identity, self).body['ip'])
+          body = attributes.dup
+          body[:server] = server.identity unless server.nil?
+
+          if (ip = service.update_ip(identity, body).body['ip'])
             merge_attributes(ip)
             true
           else
