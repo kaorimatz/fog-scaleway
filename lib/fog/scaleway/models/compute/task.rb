@@ -18,6 +18,13 @@ module Fog
         def success?
           status == 'success'
         end
+
+        def destroy
+          requires :identity
+
+          service.delete_task(identity)
+          true
+        end
       end
     end
   end

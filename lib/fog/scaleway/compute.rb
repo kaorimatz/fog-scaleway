@@ -99,6 +99,7 @@ module Fog
       # Tasks
       request :list_tasks
       request :get_task
+      request :delete_task
 
       # Containers
       request :list_containers
