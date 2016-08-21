@@ -9,6 +9,8 @@ module Fog
         attribute :reverse
         attribute :server
 
+        ignore_attributes :dynamic
+
         def server=(value)
           attributes[:server] = case value
                                 when Hash
