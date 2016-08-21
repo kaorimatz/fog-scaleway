@@ -1,4 +1,4 @@
-require 'test_helper'
+require 'integration_test_helper'
 
 class TestServers < Minitest::Test
   def setup
@@ -114,10 +114,12 @@ class TestServers < Minitest::Test
 
     assert server.sshable?
 
-    result = server.ssh('uname').first
+    unless Fog.mocking?
+      result = server.ssh('uname').first
 
-    assert_equal 0, result.status
-    assert_match /Linux/, result.stdout
+      assert_equal 0, result.status
+      assert_match /Linux/, result.stdout
+    end
 
     server.terminate(false)
 
