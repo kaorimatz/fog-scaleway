@@ -6,6 +6,14 @@ module Fog
           get("/snapshots/#{snapshot_id}")
         end
       end
+
+      class Mock
+        def get_snapshot(snapshot_id)
+          snapshot = lookup(:snapshots, snapshot_id)
+
+          response(status: 200, body: { 'snapshot' => snapshot })
+        end
+      end
     end
   end
 end

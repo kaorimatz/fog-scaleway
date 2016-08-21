@@ -6,6 +6,26 @@ module Fog
           delete("/ips/#{ip_id}")
         end
       end
+
+      class Mock
+        def delete_ip(ip_id)
+          ip = lookup(:ips, ip_id)
+
+          data[:ips].delete(ip['id'])
+
+          if ip['server']
+            server = lookup(:servers, ip['server']['id'])
+
+            if server['dynamic_ip_required']
+              server['public_ip'] = create_dynamic_ip
+            else
+              server['public_ip'] = nil
+            end
+          end
+
+          response(status: 204)
+        end
+      end
     end
   end
 end

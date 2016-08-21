@@ -146,6 +146,178 @@ module Fog
       end
 
       class Mock
+        INITIAL_IMAGE = {
+          'default_bootscript' => {
+            'kernel' => 'http://169.254.42.24/kernel/x86_64-4.5.7-std-3/vmlinuz-4.5.7-std-3',
+            'initrd' => 'http://169.254.42.24/initrd/initrd-Linux-x86_64-v3.11.1.gz',
+            'default' => true,
+            'bootcmdargs' => 'LINUX_COMMON ip=:::::eth0: boot=local',
+            'architecture' => 'x86_64',
+            'title' => 'x86_64 4.5.7 std #3 (latest/stable)',
+            'dtb' => '',
+            'organization' => '11111111-1111-4111-8111-111111111111',
+            'id' => '3b522e7a-8468-4577-ab3e-2b9535384bb8',
+            'public' => true
+          },
+          'creation_date' => '2016-05-20T09:35:48.735687+00:00',
+          'name' => 'Ubuntu Xenial (16.04 latest)',
+          'modification_date' => '2016-07-12T15:19:54.680577+00:00',
+          'organization' => 'abaeb1aa-760b-4391-aeab-c0622be90abf',
+          'extra_volumes' => '[]',
+          'arch' => 'x86_64',
+          'id' => '75c28f52-6c64-40fc-bb31-f53ca9d02de9',
+          'root_volume' => {
+            'size' => 50_000_000_000,
+            'id' => '714abe6f-5721-4222-ae69-15b4a6488f22',
+            'volume_type' => 'l_ssd',
+            'name' => 'x86_64-ubuntu-xenial-2016-05-20_09:25'
+          },
+          'public' => true
+        }.freeze
+
+        def self.data
+          @data ||= Hash.new do |hash, token|
+            hash[token] = {
+              servers: {},
+              user_data: Hash.new({}),
+              volumes: {},
+              snapshots: {},
+              images: {
+                INITIAL_IMAGE['id'] => INITIAL_IMAGE
+              },
+              ips: {},
+              security_groups: {},
+              security_group_rules: Hash.new({}),
+              bootscripts: {
+                INITIAL_IMAGE['default_bootscript']['id'] => INITIAL_IMAGE['default_bootscript']
+              },
+              tasks: {},
+              containers: {},
+              server_actions: Hash.new(%w(poweron poweroff reboot terminate))
+            }
+          end
+        end
+
+        def initialize(options)
+          @token = options[:scaleway_token]
+        end
+
+        def self.reset
+          @data = nil
+        end
+
+        private
+
+        def data
+          self.class.data[@token]
+        end
+
+        def lookup(type, id)
+          data[type][id] || raise_unknown_resource(id)
+        end
+
+        def default_security_group
+          data[:security_groups].values.find { |s| s['organization_default'] }
+        end
+
+        def create_default_security_group
+          name = 'Default security group'
+          options = {
+            description: 'Auto generated security group.',
+            organization_default: true
+          }
+
+          create_security_group(name, options).body['security_group']
+        end
+
+        def create_dynamic_ip
+          {
+            'dynamic' => true,
+            'id' => Fog::UUID.uuid,
+            'address' => Fog::Mock.random_ip
+          }
+        end
+
+        def create_ipv6
+          {
+            'netmask' => '127',
+            'gateway' => random_ipv6.mask(127).to_s,
+            'address' => random_ipv6.mask(127).succ.to_s
+          }
+        end
+
+        def terminate_server(server)
+          data[:servers].delete(server['id'])
+
+          security_group = lookup(:security_groups, server['security_group']['id'])
+          security_group['servers'].reject! { |s| s['id'] == server['id'] }
+
+          server['volumes'].values.each do |volume|
+            volume['server'] = nil
+            delete_volume(volume['id'])
+          end
+        end
+
+        def response(params)
+          params[:headers] ||= {}
+          params[:headers]['Content-Type'] ||= 'application/json'
+
+          params[:body] = encode_body(params)
+
+          response = Excon::Response.new(params)
+
+          response.body = decode_body(response)
+
+          response
+        end
+
+        def encode_body(params)
+          body         = params[:body]
+          content_type = params[:headers]['Content-Type']
+
+          if body.nil? || body.is_a?(String)
+            body
+          elsif content_type =~ %r{application/json.*}i
+            Fog::JSON.encode(body)
+          else
+            body.to_s
+          end
+        end
+
+        def decode_body(response)
+          body         = response.body
+          content_type = response.headers['Content-Type']
+
+          if !body.nil? && !body.empty? && content_type =~ %r{application/json.*}i
+            Fog::JSON.decode(body)
+          else
+            body
+          end
+        end
+
+        def raise_invalid_request_error(message)
+          raise Fog::Scaleway::Compute::InvalidRequestError, message
+        end
+
+        def raise_unknown_resource(id)
+          raise Fog::Scaleway::Compute::UnknownResource, "\"#{id}\" not found"
+        end
+
+        def raise_conflict(message)
+          raise Fog::Scaleway::Compute::Conflict, message
+        end
+
+        def now
+          Time.now.utc.strftime('%Y-%m-%dT%H:%M:%S.%6N%:z')
+        end
+
+        def jsonify(value)
+          Fog::JSON.decode(Fog::JSON.encode(value))
+        end
+
+        def random_ipv6
+          IPAddr.new(1 + rand((2**128) - 1), Socket::AF_INET6)
+        end
       end
     end
   end

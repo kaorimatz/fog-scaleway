@@ -6,6 +6,14 @@ module Fog
           get('/tokens')
         end
       end
+
+      class Mock
+        def list_tokens
+          tokens = data[:tokens].values
+
+          response(status: 200, body: { 'tokens' => tokens })
+        end
+      end
     end
   end
 end

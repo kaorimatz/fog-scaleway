@@ -6,6 +6,14 @@ module Fog
           get('/ips')
         end
       end
+
+      class Mock
+        def list_ips
+          ips = data[:ips].values
+
+          response(status: 200, body: { 'ips' => ips })
+        end
+      end
     end
   end
 end

@@ -6,6 +6,14 @@ module Fog
           get('/servers')
         end
       end
+
+      class Mock
+        def list_servers
+          servers = data[:servers].values
+
+          response(status: 200, body: { 'servers' => servers })
+        end
+      end
     end
   end
 end
