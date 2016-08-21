@@ -198,7 +198,23 @@ module Fog
         def update
           requires :identity
 
-          if (server = service.update_server(identity, self).body['server'])
+          body = attributes.dup
+
+          unless public_ip.nil?
+            body[:public_ip] = {
+              id: public_ip.identity,
+              address: public_ip.address
+            }
+          end
+
+          unless security_group.nil?
+            body[:security_group] = {
+              id: security_group.identity,
+              name: security_group.name
+            }
+          end
+
+          if (server = service.update_server(identity, body).body['server'])
             merge_attributes(server)
             true
           else
