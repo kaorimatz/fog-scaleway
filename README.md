@@ -1,5 +1,7 @@
 # Fog::Scaleway
 
+[![Travis](https://img.shields.io/travis/kaorimatz/fog-scaleway.svg?style=flat-square)](https://travis-ci.org/kaorimatz/fog-scaleway)
+
 Fog provider gem to support [Scaleway](https://www.scaleway.com/).
 
 ## Installation
