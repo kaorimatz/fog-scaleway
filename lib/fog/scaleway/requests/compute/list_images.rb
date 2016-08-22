@@ -3,7 +3,7 @@ module Fog
     class Compute
       class Real
         def list_images(filters = {})
-          get('/images', { organization: @organization }.merge(filters))
+          get('/images', filters)
         end
       end
 
