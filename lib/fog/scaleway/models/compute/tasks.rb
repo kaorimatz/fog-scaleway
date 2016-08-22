@@ -10,8 +10,11 @@ module Fog
         end
 
         def get(identity)
-          task = service.get_task(identity).body['task']
-          new(task) if task
+          if (task = service.get_task(identity).body['task'])
+            new(task)
+          end
+        rescue Fog::Scaleway::Compute::UnknownResource
+          nil
         end
       end
     end
