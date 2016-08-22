@@ -35,9 +35,7 @@ module Fog
 
             task['description'] = 'server_batch_poweron'
 
-            if server['enable_ipv6']
-              server['ipv6'] = create_ipv6
-            end
+            server['ipv6'] = create_ipv6 if server['enable_ipv6']
 
             server['location'] = {
               'platform_id' => Fog::Mock.random_numbers(2),

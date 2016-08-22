@@ -16,11 +16,9 @@ module Fog
           if ip['server']
             server = lookup(:servers, ip['server']['id'])
 
-            if server['dynamic_ip_required']
-              server['public_ip'] = create_dynamic_ip
-            else
-              server['public_ip'] = nil
-            end
+            server['public_ip'] = if server['dynamic_ip_required']
+                                    create_dynamic_ip
+                                  end
           end
 
           response(status: 204)
