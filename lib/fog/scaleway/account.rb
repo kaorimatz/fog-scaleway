@@ -253,6 +253,10 @@ module Fog
           raise Fog::Scaleway::Account::InvalidRequestError, message
         end
 
+        def raise_invalid_auth(message)
+          raise Fog::Scaleway::Account::InvalidAuth, message
+        end
+
         def raise_unknown_resource(id)
           raise Fog::Scaleway::Account::UnknownResource, "\"#{id}\" not found"
         end

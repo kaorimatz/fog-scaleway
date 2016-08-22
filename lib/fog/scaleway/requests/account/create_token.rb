@@ -35,6 +35,8 @@ module Fog
             user['email'] == body['email']
           end
 
+          raise_invalid_auth('Invalid credentials') unless user
+
           expires = nil
           if body['expires'] != false
             expires = (Time.now + 30 * 60).utc.strftime(TIME_FORMAT)
