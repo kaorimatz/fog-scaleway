@@ -1,5 +1,6 @@
 # Fog::Scaleway
 
+[![Gem](https://img.shields.io/gem/v/fog-scaleway.svg)](https://rubygems.org/gems/fog-scaleway)
 [![Travis](https://img.shields.io/travis/kaorimatz/fog-scaleway.svg?style=flat-square)](https://travis-ci.org/kaorimatz/fog-scaleway)
 [![Coveralls](https://img.shields.io/coveralls/kaorimatz/fog-scaleway.svg?style=flat-square)](https://coveralls.io/github/kaorimatz/fog-scaleway)
 
@@ -10,7 +11,7 @@ Fog provider gem to support [Scaleway](https://www.scaleway.com/).
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'fog-scaleway', git: 'https://github.com/kaorimatz/fog-scaleway.git'
+gem 'fog-scaleway'
 ```
 
 And then execute:
