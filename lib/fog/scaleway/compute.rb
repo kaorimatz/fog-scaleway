@@ -147,7 +147,7 @@ module Fog
       end
 
       class Mock
-        INITIAL_IMAGE = {
+        INITIAL_IMAGES = [{
           'default_bootscript' => {
             'kernel' => 'http://169.254.42.24/kernel/x86_64-4.5.7-std-3/vmlinuz-4.5.7-std-3',
             'initrd' => 'http://169.254.42.24/initrd/initrd-Linux-x86_64-v3.11.1.gz',
@@ -174,7 +174,34 @@ module Fog
             'name' => 'x86_64-ubuntu-xenial-2016-05-20_09:25'
           },
           'public' => true
-        }.freeze
+        }, {
+          'default_bootscript' => {
+            'kernel' => 'kernel/armv7l-4.5.7-std-4',
+            'initrd' => 'initrd/uInitrd-Linux-armv7l-v3.11.1',
+            'default' => true,
+            'bootcmdargs' => 'LINUX_COMMON ip=:::::eth0: boot=local',
+            'architecture' => 'arm',
+            'title' => 'armv7l 4.5.7 std #4 (latest)',
+            'dtb' => 'dtb/c1-armv7l-4.5.7-std-4',
+            'organization' => '11111111-1111-4111-8111-111111111111',
+            'id' => '599b736c-48b5-4530-9764-f04d06ecadc7',
+            'public' => true
+          },
+          'creation_date' => '2016-05-20T09:00:08.222054+00:00',
+          'name' => 'Ubuntu Xenial (16.04 latest)',
+          'modification_date' => '2016-07-12T15:21:13.269384+00:00',
+          'organization' => 'abaeb1aa-760b-4391-aeab-c0622be90abf',
+          'extra_volumes' => '[]',
+          'arch' => 'arm',
+          'id' => 'eeb73cbf-78a9-4481-9e38-9aaadaf8e0c9',
+          'root_volume' => {
+            'size' => 50_000_000_000,
+            'id' => 'ea3aaf5a-c91b-463d-9093-00fae8632cfd',
+            'volume_type' => 'l_ssd',
+            'name' => 'armv7l-ubuntu-xenial-2016-05-20_08:51'
+          },
+          'public' => true
+        }].freeze
 
         def self.data
           @data ||= Hash.new do |hash, token|
@@ -183,15 +210,13 @@ module Fog
               user_data: Hash.new({}),
               volumes: {},
               snapshots: {},
-              images: {
-                INITIAL_IMAGE['id'] => INITIAL_IMAGE
-              },
+              images: Hash[INITIAL_IMAGES.map { |i| [i['id'], i] }],
               ips: {},
               security_groups: {},
               security_group_rules: Hash.new({}),
-              bootscripts: {
-                INITIAL_IMAGE['default_bootscript']['id'] => INITIAL_IMAGE['default_bootscript']
-              },
+              bootscripts: Hash[INITIAL_IMAGES.map do |i|
+                [i['default_bootscript']['id'], i['default_bootscript']]
+              end],
               tasks: {},
               containers: {},
               server_actions: Hash.new(%w(poweron poweroff reboot terminate))
