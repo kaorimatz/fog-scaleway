@@ -7,7 +7,7 @@ module Fog
         end
       end
 
-      def Mock
+      class Mock
         def update_ip(ip_id, body)
           body = jsonify(body)
 
