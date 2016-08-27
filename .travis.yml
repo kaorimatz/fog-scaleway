@@ -5,5 +5,5 @@ rvm:
 before_install:
   - gem install bundler
 script:
-  - bundle exec rake test:units FOG_MOCK=true
+  - bundle exec rake test:units FOG_MOCK=true COVERAGE=true
   - bundle exec rake test:integration FOG_MOCK=true
