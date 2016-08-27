@@ -1,6 +1,6 @@
 # Fog::Scaleway
 
-[![Gem](https://img.shields.io/gem/v/fog-scaleway.svg)](https://rubygems.org/gems/fog-scaleway)
+[![Gem](https://img.shields.io/gem/v/fog-scaleway.svg?style=flat-square)](https://rubygems.org/gems/fog-scaleway)
 [![Travis](https://img.shields.io/travis/kaorimatz/fog-scaleway.svg?style=flat-square)](https://travis-ci.org/kaorimatz/fog-scaleway)
 [![Coveralls](https://img.shields.io/coveralls/kaorimatz/fog-scaleway.svg?style=flat-square)](https://coveralls.io/github/kaorimatz/fog-scaleway)
 
