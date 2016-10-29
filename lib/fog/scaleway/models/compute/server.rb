@@ -106,46 +106,31 @@ module Fog
         def poweron(async = true)
           requires :identity
 
-          if (task = service.execute_server_action(identity, 'poweron').body['task'])
-            service.tasks.new(task).tap do |t|
-              unless async
-                t.wait_for { t.success? }
-                reload
-              end
-            end
-          end
+          execute_action('poweron', async)
         end
 
         def poweroff(async = true)
           requires :identity
 
-          if (task = service.execute_server_action(identity, 'poweroff').body['task'])
-            service.tasks.new(task).tap do |t|
-              unless async
-                t.wait_for { t.success? }
-                reload
-              end
-            end
-          end
+          execute_action('poweroff', async)
         end
 
         def reboot(async = true)
           requires :identity
 
-          if (task = service.execute_server_action(identity, 'reboot').body['task'])
-            service.tasks.new(task).tap do |t|
-              unless async
-                t.wait_for { t.success? }
-                reload
-              end
-            end
-          end
+          execute_action('reboot', async)
         end
 
         def terminate(async = true)
           requires :identity
 
-          if (task = service.execute_server_action(identity, 'terminate').body['task'])
+          execute_action('terminate', async)
+        end
+
+        def execute_action(action, async = true)
+          requires :identity
+
+          if (task = service.execute_server_action(identity, action).body['task'])
             service.tasks.new(task).tap do |t|
               unless async
                 t.wait_for { t.success? }
