@@ -9,6 +9,7 @@ if Fog.mock?
   Fog.credentials = {
     scaleway_organization: '7c91ef18-eea8-4f4f-bfca-deaea872338c',
     scaleway_token: '04b66719-36f4-4dfc-a345-f20db6175a8f',
+    scaleway_region: 'ams1',
     scaleway_email: 'scaleway@example.com'
   }.merge(Fog.credentials)
 end

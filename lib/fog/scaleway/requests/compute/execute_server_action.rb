@@ -41,6 +41,7 @@ module Fog
               'platform_id' => Fog::Mock.random_numbers(2),
               'node_id' => Fog::Mock.random_numbers(2),
               'cluster_id' => Fog::Mock.random_numbers(2),
+              'zone_id' => @region,
               'chassis_id' => Fog::Mock.random_numbers(2)
             }
 

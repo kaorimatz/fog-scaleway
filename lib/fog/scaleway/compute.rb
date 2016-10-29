@@ -12,9 +12,10 @@ module Fog
       class Conflict < Error; end
       class APIError < Error; end
 
-      requires :scaleway_token
-      requires :scaleway_organization
-      secrets  :scaleway_token
+      requires   :scaleway_token
+      requires   :scaleway_organization
+      recognizes :scaleway_region
+      secrets    :scaleway_token
 
       model_path 'fog/scaleway/models/compute'
 
@@ -114,6 +115,7 @@ module Fog
         def initialize(options)
           @token        = options[:scaleway_token]
           @organization = options[:scaleway_organization]
+          @region       = options[:scaleway_region] || 'par1'
         end
 
         def request(params)
@@ -138,7 +140,11 @@ module Fog
         private
 
         def client
-          @client ||= Fog::Scaleway::Client.new('https://api.scaleway.com', @token)
+          @client ||= Fog::Scaleway::Client.new(endpoint, @token)
+        end
+
+        def endpoint
+          "https://cp-#{@region}.scaleway.com"
         end
 
         def camelize(str)

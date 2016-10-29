@@ -25,8 +25,9 @@ Put your credentials to the fog configuration file:
 
 ```yaml
 default:
-  scaleway_organization: <YOUR_ORGANIZATION_UUID>
-  scaleway_token: <YOUR_TOKEN>
+  scaleway_organization: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx # Your organization ID
+  scaleway_token: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx        # Your token
+  scaleway_region: par1                                       # par1 or ams1
 ```
 
 Create a connection to the service:
