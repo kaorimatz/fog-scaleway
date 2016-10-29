@@ -11,7 +11,7 @@ module Fog
         def get_security_group_rule(security_group_id, rule_id)
           security_group = lookup(:security_groups, security_group_id)
 
-          rule = data[:security_group_rules][security_group_id][rule_id]
+          rule = data[:security_group_rules][security_group['id']][rule_id]
 
           raise_unknown_resource(rule_id) unless rule
 

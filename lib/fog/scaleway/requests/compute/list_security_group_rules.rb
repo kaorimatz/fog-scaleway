@@ -11,7 +11,7 @@ module Fog
         def list_security_group_rules(security_group_id)
           security_group = lookup(:security_groups, security_group_id)
 
-          rules = data[:security_group_rules][security_group_id].values
+          rules = data[:security_group_rules][security_group['id']].values
 
           response(status: 200, body: { 'rules' => rules })
         end

@@ -107,9 +107,9 @@ module Fog
           requires :identity
 
           if (task = service.execute_server_action(identity, 'poweron').body['task'])
-            service.tasks.new(task).tap do |task|
+            service.tasks.new(task).tap do |t|
               unless async
-                task.wait_for { task.success? }
+                t.wait_for { t.success? }
                 reload
               end
             end
@@ -120,9 +120,9 @@ module Fog
           requires :identity
 
           if (task = service.execute_server_action(identity, 'poweroff').body['task'])
-            service.tasks.new(task).tap do |task|
+            service.tasks.new(task).tap do |t|
               unless async
-                task.wait_for { task.success? }
+                t.wait_for { t.success? }
                 reload
               end
             end
@@ -133,9 +133,9 @@ module Fog
           requires :identity
 
           if (task = service.execute_server_action(identity, 'reboot').body['task'])
-            service.tasks.new(task).tap do |task|
+            service.tasks.new(task).tap do |t|
               unless async
-                task.wait_for { task.success? }
+                t.wait_for { t.success? }
                 reload
               end
             end
@@ -146,9 +146,9 @@ module Fog
           requires :identity
 
           if (task = service.execute_server_action(identity, 'terminate').body['task'])
-            service.tasks.new(task).tap do |task|
+            service.tasks.new(task).tap do |t|
               unless async
-                task.wait_for { task.success? }
+                t.wait_for { t.success? }
                 reload
               end
             end

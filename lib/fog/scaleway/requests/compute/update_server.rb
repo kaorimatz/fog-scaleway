@@ -17,7 +17,7 @@ module Fog
                          lookup(:bootscripts, body['bootscript']['id'])
                        elsif body['bootscript'].is_a?(String)
                          lookup(:bootscripts, body['bootscript'])
-                      end
+                       end
 
           volumes = {}
           body['volumes'].each do |index, volume|

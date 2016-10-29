@@ -15,7 +15,7 @@ module Fog
         def update_user_data(server_id, key, value)
           server = lookup(:servers, server_id)
 
-          data[:user_data][server_id][key] = value
+          data[:user_data][server['id']][key] = value
 
           response(status: 204)
         end

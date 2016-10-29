@@ -45,7 +45,7 @@ class TestSnapshot < Minitest::Test
   def test_create_image
     @snapshot.save
 
-    image  = @snapshot.create_image("fog-test-units-#{self.class}-#{name}", 'x86_64')
+    image = @snapshot.create_image("fog-test-units-#{self.class}-#{name}", 'x86_64')
 
     assert_equal @snapshot, image.root_volume
   end

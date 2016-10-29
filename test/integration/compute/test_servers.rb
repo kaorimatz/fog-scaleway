@@ -118,7 +118,7 @@ class TestServers < Minitest::Test
       result = server.ssh('uname').first
 
       assert_equal 0, result.status
-      assert_match /Linux/, result.stdout
+      assert_match(/Linux/, result.stdout)
     end
 
     server.terminate(false)

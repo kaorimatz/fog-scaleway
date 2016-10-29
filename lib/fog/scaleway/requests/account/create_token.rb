@@ -31,8 +31,8 @@ module Fog
 
           body = jsonify(body)
 
-          user = data[:users].values.find do |user|
-            user['email'] == body['email']
+          user = data[:users].values.find do |u|
+            u['email'] == body['email']
           end
 
           raise_invalid_auth('Invalid credentials') unless user
