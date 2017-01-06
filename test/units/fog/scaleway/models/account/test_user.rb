@@ -13,13 +13,11 @@ class TestUser < Minitest::Test
   end
 
   def test_save
-    @user.phone_number = '+33 1 23 45 67 89'
     @user.firstname = 'firstname'
     @user.lastname = 'lastname'
 
     @user.save
 
-    assert_equal '+33 1 23 45 67 89', @user.phone_number
     assert_equal 'firstname', @user.firstname
     assert_equal 'lastname', @user.lastname
   end

@@ -48,7 +48,6 @@ module Fog
           options = {}
           options[:firstname] = firstname unless firstname.nil?
           options[:lastname] = lastname unless lastname.nil?
-          options[:phone_number] = phone_number unless phone_number.nil?
 
           unless ssh_public_keys.nil?
             options[:ssh_public_keys] = ssh_public_keys.map do |k|
