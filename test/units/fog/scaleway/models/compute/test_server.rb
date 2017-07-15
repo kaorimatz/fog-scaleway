@@ -8,9 +8,9 @@ class TestServer < Minitest::Test
 
     @servers = Fog::Scaleway::Compute::Servers.new(service: @service)
     @server = @servers.new(
-      commercial_type: 'C2S',
+      commercial_type: 'C1',
       name: "fog-test-integration-#{self.class}-#{name}",
-      image: '75c28f52-6c64-40fc-bb31-f53ca9d02de9'
+      image: ARM_IMAGE_ID
     )
   end
 

@@ -7,7 +7,7 @@ class TestTask < Minitest::Test
     servers = Fog::Scaleway::Compute::Servers.new(service: service)
     server = servers.create(
       name: "fog-test-units-#{self.class}-#{name}-1",
-      image: '75c28f52-6c64-40fc-bb31-f53ca9d02de9'
+      image: X86_64_IMAGE_ID
     )
 
     @tasks = Fog::Scaleway::Compute::Tasks.new(service: service)

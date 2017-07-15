@@ -33,6 +33,24 @@ module Fog
               raise_invalid_request_error('server should be stopped')
             end
 
+            total_volume_size = server['volumes'].values.map { |v| v['size'] }.reduce(&:+)
+            commercial_type, product_server = lookup_product_server(server['commercial_type'])
+            if (constraint = product_server['volumes_constraint'])
+              min_size = constraint['min_size'] || -Float::INFINITY
+              max_size = constraint['max_size'] || Float::INFINITY
+              if total_volume_size < min_size || total_volume_size > max_size
+                message = "The total volume size of #{commercial_type} instances must be "
+                message << if min_size == -Float::INFINITY
+                             "equal or below #{max_size / 10**9}GB"
+                           elsif max_size == Float::INFINITY
+                             "equal or above #{min_size / 10**9}GB"
+                           else
+                             "between #{min_size / 10**9}GB and #{max_size / 10**9}GB"
+                           end
+                raise_invalid_request_error(message)
+              end
+            end
+
             task['description'] = 'server_batch_poweron'
 
             server['ipv6'] = create_ipv6 if server['enable_ipv6']

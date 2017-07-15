@@ -10,8 +10,7 @@ class TestServers < Minitest::Test
   def test_create_update_destroy
     server = @servers.create(
       name: "fog-test-integration-#{self.class}-#{name}",
-      image: '75c28f52-6c64-40fc-bb31-f53ca9d02de9',
-      commercial_type: 'C2S'
+      image: X86_64_IMAGE_ID
     )
 
     assert_includes @servers.all, server
@@ -42,8 +41,7 @@ class TestServers < Minitest::Test
   def test_poweron_poweroff_reboot_terminate
     server = @servers.create(
       name: "fog-test-integration-#{self.class}-#{name}",
-      image: '75c28f52-6c64-40fc-bb31-f53ca9d02de9',
-      commercial_type: 'C2S'
+      image: X86_64_IMAGE_ID
     )
 
     assert_equal 'stopped', server.state
@@ -72,8 +70,7 @@ class TestServers < Minitest::Test
   def test_attach_volume_detach_volume
     server = @servers.create(
       name: "fog-test-integration-#{self.class}-#{name}",
-      image: '75c28f52-6c64-40fc-bb31-f53ca9d02de9',
-      commercial_type: 'C2S'
+      image: X86_64_IMAGE_ID
     )
 
     volume = @volumes.create(

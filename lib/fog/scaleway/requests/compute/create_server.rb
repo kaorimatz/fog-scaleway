@@ -31,6 +31,14 @@ module Fog
 
           image = lookup(:images, body['image'])
 
+          commercial_type, product_server = lookup_product_server(body.fetch('commercial_type', 'VC1S'))
+          raise_invalid_request_error('Validation Error') unless commercial_type
+
+          unless image['arch'] == product_server['arch']
+            message = "Image '#{image['id']}' arch is not '#{product_server['arch']}'"
+            raise_invalid_request_error(message)
+          end
+
           creation_date = now
 
           volumes = {}
@@ -69,11 +77,16 @@ module Fog
             }
           end
 
-          dynamic_ip_required = !public_ip && body.fetch('dynamic_ip_required', true)
-
           default_bootscript_id = image['default_bootscript']['id']
           bootscript_id = body.fetch('bootscript', default_bootscript_id)
           bootscript = lookup(:bootscripts, bootscript_id)
+
+          dynamic_ip_required = !public_ip && body.fetch('dynamic_ip_required', true)
+
+          enable_ipv6 = body.fetch('enable_ipv6', false)
+          if enable_ipv6 && !product_server['network']['ipv6_support']
+            raise_invalid_request_error("Cannot enable ipv6 on #{commercial_type}")
+          end
 
           if body['security_group']
             security_group = lookup(:security_groups, body['security_group'])
@@ -85,10 +98,10 @@ module Fog
           server = {
             'arch' => image['arch'],
             'bootscript' => bootscript,
-            'commercial_type' => body.fetch('commercial_type', 'C1'),
+            'commercial_type' => commercial_type,
             'creation_date' => creation_date,
             'dynamic_ip_required' => dynamic_ip_required,
-            'enable_ipv6' => body.fetch('enable_ipv6', false),
+            'enable_ipv6' => enable_ipv6,
             'extra_networks' => [],
             'hostname' => body['name'],
             'id' => Fog::UUID.uuid,

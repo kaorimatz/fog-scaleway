@@ -10,9 +10,8 @@ class TestImages < Minitest::Test
 
   def test_create_update_destroy
     server = @servers.create(
-      commercial_type: 'C2S',
       name: "fog-test-integration-#{self.class}-#{name}",
-      image: '75c28f52-6c64-40fc-bb31-f53ca9d02de9'
+      image: X86_64_IMAGE_ID
     )
 
     snapshot = @snapshots.create(

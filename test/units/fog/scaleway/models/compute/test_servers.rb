@@ -15,7 +15,7 @@ class TestServers < Minitest::Test
   def test_create_server
     server = @servers.create(
       name: "fog-test-units-#{self.class}-#{name}",
-      image: '75c28f52-6c64-40fc-bb31-f53ca9d02de9'
+      image: X86_64_IMAGE_ID
     )
 
     assert server.persisted?
@@ -30,7 +30,7 @@ class TestServers < Minitest::Test
   def test_get_server
     server = @servers.create(
       name: "fog-test-units-#{self.class}-#{name}",
-      image: '75c28f52-6c64-40fc-bb31-f53ca9d02de9'
+      image: X86_64_IMAGE_ID
     )
 
     server = @servers.get(server.identity)
@@ -45,11 +45,11 @@ class TestServers < Minitest::Test
   def test_get_all_servers
     server1 = @servers.create(
       name: "fog-test-units-#{self.class}-#{name}-1",
-      image: '75c28f52-6c64-40fc-bb31-f53ca9d02de9'
+      image: X86_64_IMAGE_ID
     )
     server2 = @servers.create(
       name: "fog-test-units-#{self.class}-#{name}-2",
-      image: '75c28f52-6c64-40fc-bb31-f53ca9d02de9'
+      image: X86_64_IMAGE_ID
     )
 
     assert_includes @servers.all, server1
@@ -59,7 +59,7 @@ class TestServers < Minitest::Test
   def test_destroy_server
     server = @servers.create(
       name: "fog-test-units-#{self.class}-#{name}",
-      image: '75c28f52-6c64-40fc-bb31-f53ca9d02de9'
+      image: X86_64_IMAGE_ID
     )
 
     @servers.destroy(server.identity)

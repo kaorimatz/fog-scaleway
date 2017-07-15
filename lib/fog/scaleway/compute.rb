@@ -37,6 +37,8 @@ module Fog
       collection :bootscripts
       model      :task
       collection :tasks
+      model      :product_server
+      collection :product_servers
 
       request_path 'fog/scaleway/requests/compute'
 
@@ -105,6 +107,9 @@ module Fog
       # Containers
       request :list_containers
       request :get_container
+
+      # Products
+      request :list_product_servers
 
       # Dashboard
       request :get_dashboard
@@ -209,6 +214,48 @@ module Fog
           'public' => true
         }].freeze
 
+        PRODUCTS = {
+          'servers' => {
+            'VC1S' => {
+              'volumes_constraint' => {
+                'min_size' => nil,
+                'max_size' => 50_000_000_000
+              },
+              'network' => {
+                'interfaces' => [{
+                  'internal_bandwidth' => nil,
+                  'internet_bandwidth' => 209_715_200
+                }],
+                'sum_internal_bandwidth' => nil,
+                'sum_internet_bandwidth' => 209_715_200,
+                'ipv6_support' => true
+              },
+              'ncpus' => 2,
+              'ram' => 2_147_483_648,
+              'alt_names' => ['X64-2GB'],
+              'baremetal' => false,
+              'arch' => 'x86_64'
+            },
+            'C1' => {
+              'volumes_constraint' => nil,
+              'network' => {
+                'interfaces' => [{
+                  'internal_bandwidth' => 1_073_741_824,
+                  'internet_bandwidth' => 209_715_200
+                }],
+                'sum_internal_bandwidth' => 1_073_741_824,
+                'sum_internet_bandwidth' => 209_715_200,
+                'ipv6_support' => false
+              },
+              'ncpus' => 4,
+              'ram' => 2_147_483_648,
+              'alt_names' => [],
+              'baremetal' => true,
+              'arch' => 'arm'
+            }
+          }
+        }.freeze
+
         def self.data
           @data ||= Hash.new do |hash, token|
             hash[token] = {
@@ -246,6 +293,10 @@ module Fog
 
         def lookup(type, id)
           data[type][id] || raise_unknown_resource(id)
+        end
+
+        def lookup_product_server(name)
+          PRODUCTS['servers'].find { |n, s| n == name || s['alt_names'].include?(name) }
         end
 
         def default_security_group

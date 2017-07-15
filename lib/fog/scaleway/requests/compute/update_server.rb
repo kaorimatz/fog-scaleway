@@ -19,6 +19,12 @@ module Fog
                          lookup(:bootscripts, body['bootscript'])
                        end
 
+          _, product_server = lookup_product_server(server['commercial_type'])
+
+          if body['enable_ipv6'] && !product_server['network']['ipv6_support']
+            raise_invalid_request_error("Cannot enable ipv6 on #{commercial_type}")
+          end
+
           volumes = {}
           body['volumes'].each do |index, volume|
             volume = lookup(:volumes, volume['id'])
