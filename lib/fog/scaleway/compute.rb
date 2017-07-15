@@ -272,7 +272,7 @@ module Fog
               end],
               tasks: {},
               containers: {},
-              server_actions: Hash.new(%w(poweron poweroff reboot terminate))
+              server_actions: Hash.new(%w[poweron poweroff reboot terminate])
             }
           end
         end

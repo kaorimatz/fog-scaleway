@@ -35,6 +35,7 @@ module Fog
 
             total_volume_size = server['volumes'].values.map { |v| v['size'] }.reduce(&:+)
             commercial_type, product_server = lookup_product_server(server['commercial_type'])
+            # rubocop:disable Metrics/BlockNesting
             if (constraint = product_server['volumes_constraint'])
               min_size = constraint['min_size'] || -Float::INFINITY
               max_size = constraint['max_size'] || Float::INFINITY
@@ -50,6 +51,7 @@ module Fog
                 raise_invalid_request_error(message)
               end
             end
+            # rubocop:enable Metrics/BlockNesting
 
             task['description'] = 'server_batch_poweron'
 

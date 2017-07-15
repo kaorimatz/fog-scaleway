@@ -19,14 +19,14 @@ class TestServers < Minitest::Test
 
     server.enable_ipv6 = true
     server.name = "fog-test-integration-#{self.class}-#{name}-updated"
-    server.tags = %w(tag1 tag2 tag3)
+    server.tags = %w[tag1 tag2 tag3]
     server.save
 
     server = @servers.get(server.identity)
 
     assert_equal true, server.enable_ipv6
     assert_equal "fog-test-integration-#{self.class}-#{name}-updated", server.name
-    assert_equal %w(tag1 tag2 tag3), server.tags
+    assert_equal %w[tag1 tag2 tag3], server.tags
 
     server.destroy
 

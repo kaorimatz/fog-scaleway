@@ -16,7 +16,7 @@ module Fog
 
           user = lookup(:users, user_id)
 
-          %w(firstname lastname).each do |attr|
+          %w[firstname lastname].each do |attr|
             user[attr] = options[attr] if options.key?(attr)
           end
 
