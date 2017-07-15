@@ -28,7 +28,6 @@ module Fog
           defaults = {
             name: name,
             image: '75c28f52-6c64-40fc-bb31-f53ca9d02de9',
-            commercial_type: 'C2S',
             dynamic_ip_required: false,
             public_ip: public_ip
           }
