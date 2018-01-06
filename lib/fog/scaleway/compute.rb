@@ -118,9 +118,10 @@ module Fog
         include Fog::Scaleway::RequestHelper
 
         def initialize(options)
-          @token        = options[:scaleway_token]
-          @organization = options[:scaleway_organization]
-          @region       = options[:scaleway_region] || 'par1'
+          @token              = options[:scaleway_token]
+          @organization       = options[:scaleway_organization]
+          @region             = options[:scaleway_region] || 'par1'
+          @connection_options = options[:connection_options] || {}
         end
 
         def request(params)
@@ -145,7 +146,7 @@ module Fog
         private
 
         def client
-          @client ||= Fog::Scaleway::Client.new(endpoint, @token)
+          @client ||= Fog::Scaleway::Client.new(endpoint, @token, @connection_options)
         end
 
         def endpoint

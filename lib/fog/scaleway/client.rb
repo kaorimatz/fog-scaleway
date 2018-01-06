@@ -1,9 +1,10 @@
 module Fog
   module Scaleway
     class Client
-      def initialize(endpoint, token)
-        @endpoint = endpoint
-        @token    = token
+      def initialize(endpoint, token, connection_options)
+        @endpoint           = endpoint
+        @token              = token
+        @connection_options = connection_options
       end
 
       def request(params)
@@ -23,7 +24,7 @@ module Fog
       private
 
       def connection
-        @connection ||= Fog::Core::Connection.new(@endpoint)
+        @connection ||= Fog::Core::Connection.new(@endpoint, false, @connection_options)
       end
 
       def encode_body(params)

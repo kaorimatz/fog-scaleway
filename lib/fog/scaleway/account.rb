@@ -47,8 +47,9 @@ module Fog
         include Fog::Scaleway::RequestHelper
 
         def initialize(options)
-          @token = options[:scaleway_token]
-          @email = options[:scaleway_email]
+          @token              = options[:scaleway_token]
+          @email              = options[:scaleway_email]
+          @connection_options = options[:connection_options] || {}
         end
 
         def request(params)
@@ -73,7 +74,7 @@ module Fog
         private
 
         def client
-          @client ||= Fog::Scaleway::Client.new('https://account.scaleway.com', @token)
+          @client ||= Fog::Scaleway::Client.new('https://account.scaleway.com', @token, @connection_options)
         end
 
         def camelize(str)
