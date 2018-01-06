@@ -2,13 +2,13 @@ module Fog
   module Scaleway
     class Compute
       class Real
-        def get_dashboard # rubocop:disable Style/AccessorMethodName
+        def get_dashboard # rubocop:disable Naming/AccessorMethodName
           get('/dashboard')
         end
       end
 
       class Mock
-        def get_dashboard # rubocop:disable Style/AccessorMethodName
+        def get_dashboard # rubocop:disable Naming/AccessorMethodName
           running_servers = data[:servers].select do |_id, s|
             s['state'] == 'running'
           end
