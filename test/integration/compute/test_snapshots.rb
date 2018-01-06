@@ -37,10 +37,10 @@ class TestSnapshots < Minitest::Test
     assert_nil @snapshots.get(snapshot.identity)
 
     server.destroy
-    server.volumes.values.each(&:destroy)
+    server.volumes.each_value(&:destroy)
 
     Fog.wait_for { !@servers.all.include?(server) }
-    server.volumes.values.each { |v| Fog.wait_for { !@volumes.all.include?(v) } }
+    server.volumes.each_value { |v| Fog.wait_for { !@volumes.all.include?(v) } }
   end
 
   def test_create_image
@@ -61,12 +61,12 @@ class TestSnapshots < Minitest::Test
     image.destroy
     snapshot.destroy
     server.destroy
-    server.volumes.values.each(&:destroy)
+    server.volumes.each_value(&:destroy)
 
     Fog.wait_for { !@images.all.include?(image) }
     Fog.wait_for { !@snapshots.all.include?(snapshot) }
     Fog.wait_for { !@servers.all.include?(server) }
-    server.volumes.values.each { |v| Fog.wait_for { !@volumes.all.include?(v) } }
+    server.volumes.each_value { |v| Fog.wait_for { !@volumes.all.include?(v) } }
   end
 
   def test_create_volume
@@ -88,11 +88,11 @@ class TestSnapshots < Minitest::Test
     volume.destroy
     snapshot.destroy
     server.destroy
-    server.volumes.values.each(&:destroy)
+    server.volumes.each_value(&:destroy)
 
     Fog.wait_for { !@volumes.all.include?(volume) }
     Fog.wait_for { !@snapshots.all.include?(snapshot) }
     Fog.wait_for { !@servers.all.include?(server) }
-    server.volumes.values.each { |v| Fog.wait_for { !@volumes.all.include?(v) } }
+    server.volumes.each_value { |v| Fog.wait_for { !@volumes.all.include?(v) } }
   end
 end

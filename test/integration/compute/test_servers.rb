@@ -34,8 +34,8 @@ class TestServers < Minitest::Test
 
     assert_nil @servers.get(server.identity)
 
-    server.volumes.values.each(&:destroy)
-    server.volumes.values.each { |v| Fog.wait_for { !@volumes.all.include?(v) } }
+    server.volumes.each_value(&:destroy)
+    server.volumes.each_value { |v| Fog.wait_for { !@volumes.all.include?(v) } }
   end
 
   def test_poweron_poweroff_reboot_terminate
@@ -96,11 +96,11 @@ class TestServers < Minitest::Test
     assert_nil volume.server
 
     server.destroy
-    server.volumes.values.each(&:destroy)
+    server.volumes.each_value(&:destroy)
     volume.destroy
 
     Fog.wait_for { !@servers.all.include?(server) }
-    server.volumes.values.each { |v| Fog.wait_for { !@volumes.all.include?(v) } }
+    server.volumes.each_value { |v| Fog.wait_for { !@volumes.all.include?(v) } }
     Fog.wait_for { !@volumes.all.include?(volume) }
   end
 

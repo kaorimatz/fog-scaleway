@@ -46,11 +46,11 @@ class TestVolumes < Minitest::Test
 
     snapshot.destroy
     server.destroy
-    server.volumes.values.each(&:destroy)
+    server.volumes.each_value(&:destroy)
 
     Fog.wait_for { !@snapshots.all.include?(snapshot) }
     Fog.wait_for { !@servers.all.include?(server) }
-    server.volumes.values.each { |v| Fog.wait_for { !@volumes.all.include?(v) } }
+    server.volumes.each_value { |v| Fog.wait_for { !@volumes.all.include?(v) } }
   end
 
   def test_clone

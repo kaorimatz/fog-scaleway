@@ -127,7 +127,7 @@ module Fog
 
           data[:volumes][server['volumes']['0']['id']] = server['volumes']['0']
 
-          server['volumes'].each do |_index, volume|
+          server['volumes'].each_value do |volume|
             volume['server'] = {
               'id' => server['id'],
               'name' => server['name']

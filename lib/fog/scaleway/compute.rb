@@ -336,7 +336,7 @@ module Fog
           security_group = lookup(:security_groups, server['security_group']['id'])
           security_group['servers'].reject! { |s| s['id'] == server['id'] }
 
-          server['volumes'].values.each do |volume|
+          server['volumes'].each_value do |volume|
             volume['server'] = nil
             delete_volume(volume['id'])
           end

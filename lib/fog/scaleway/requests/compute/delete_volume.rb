@@ -17,7 +17,7 @@ module Fog
 
           data[:volumes].delete(volume_id)
 
-          data[:snapshots].each do |_id, snapshot|
+          data[:snapshots].each_value do |snapshot|
             if snapshot['base_volume'] && snapshot['base_volume']['id'] == volume_id
               snapshot['base_volume'] = nil
             end
