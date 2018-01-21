@@ -5,6 +5,7 @@ module Fog
         identity :id
 
         attribute :creation_date
+        attribute :double_auth_enabled
         attribute :email
         attribute :firstname
         attribute :fullname
