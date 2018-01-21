@@ -171,6 +171,7 @@ module Fog
           options[:enable_ipv6] = enable_ipv6 unless enable_ipv6.nil?
           options[:dynamic_ip_required] = dynamic_ip_required unless dynamic_ip_required.nil?
           options[:public_ip] = public_ip.identity unless public_ip.nil?
+          options[:security_group] = security_group.identity unless security_group.nil?
           options[:tags] = tags unless tags.nil?
 
           if (server = service.create_server(name, image.identity, volumes, options).body['server'])
