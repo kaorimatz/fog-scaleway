@@ -4,13 +4,15 @@ module Fog
       class ProductServer < Fog::Model
         identity :name
 
-        attribute :volumes_constraint
-        attribute :network
-        attribute :ncpus
-        attribute :ram
         attribute :alt_names
-        attribute :baremetal
         attribute :arch
+        attribute :baremetal
+        attribute :hourly_price
+        attribute :monthly_price
+        attribute :ncpus
+        attribute :network
+        attribute :ram
+        attribute :volumes_constraint
       end
     end
   end
