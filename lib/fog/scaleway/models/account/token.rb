@@ -30,6 +30,7 @@ module Fog
 
         def create
           options = {}
+          options[:description] = description unless description.nil?
           options[:expires] = expires != false unless expires.nil?
 
           if (token = service.create_token(options).body['token'])
