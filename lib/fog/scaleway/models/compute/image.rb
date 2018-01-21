@@ -4,15 +4,15 @@ module Fog
       class Image < Fog::Model
         identity :id
 
-        attribute :default_bootscript
-        attribute :creation_date
-        attribute :name
-        attribute :modification_date
-        attribute :organization
-        # attribute :extra_volumes
         attribute :arch
-        attribute :root_volume
+        attribute :creation_date
+        attribute :default_bootscript
+        # attribute :extra_volumes
+        attribute :modification_date
+        attribute :name
+        attribute :organization
         attribute :public
+        attribute :root_volume
 
         def default_bootscript=(value)
           attributes[:default_bootscript] = case value

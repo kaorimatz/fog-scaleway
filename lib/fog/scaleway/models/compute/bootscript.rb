@@ -4,15 +4,15 @@ module Fog
       class Bootscript < Fog::Model
         identity :id
 
-        attribute :kernel
-        attribute :initrd
-        attribute :default
-        attribute :bootcmdargs
         attribute :architecture
-        attribute :title
+        attribute :bootcmdargs
+        attribute :default
         attribute :dtb
+        attribute :initrd
+        attribute :kernel
         attribute :organization
         attribute :public
+        attribute :title
       end
     end
   end
