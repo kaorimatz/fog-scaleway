@@ -166,6 +166,7 @@ module Fog
           requires :name, :image, :volumes
 
           options = {}
+          options[:bootscript] = bootscript.identity unless bootscript.nil?
           options[:commercial_type] = commercial_type unless commercial_type.nil?
           options[:enable_ipv6] = enable_ipv6 unless enable_ipv6.nil?
           options[:dynamic_ip_required] = dynamic_ip_required unless dynamic_ip_required.nil?
