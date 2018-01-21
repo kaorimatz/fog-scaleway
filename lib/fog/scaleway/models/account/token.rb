@@ -5,6 +5,7 @@ module Fog
         identity :id
 
         attribute :creation_date
+        attribute :creation_ip
         attribute :description
         attribute :expires
         attribute :inherits_user_perms
