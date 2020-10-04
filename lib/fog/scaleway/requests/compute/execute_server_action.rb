@@ -29,9 +29,7 @@ module Fog
 
           case action
           when 'poweron'
-            unless server['state'] == 'stopped'
-              raise_invalid_request_error('server should be stopped')
-            end
+            raise_invalid_request_error('server should be stopped') unless server['state'] == 'stopped'
 
             total_volume_size = server['volumes'].values.map { |v| v['size'] }.reduce(&:+)
             commercial_type, product_server = lookup_product_server(server['commercial_type'])
@@ -67,9 +65,7 @@ module Fog
 
             server['private_ip'] = Fog::Mock.random_ip
 
-            if server['dynamic_ip_required'] && server['public_ip'].nil?
-              server['public_ip'] = create_dynamic_ip
-            end
+            server['public_ip'] = create_dynamic_ip if server['dynamic_ip_required'] && server['public_ip'].nil?
 
             server['state'] = 'starting'
             server['state_detail'] = 'provisioning node'

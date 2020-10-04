@@ -11,13 +11,9 @@ module Fog
         def delete_security_group(security_group_id)
           security_group = lookup(:security_groups, security_group_id)
 
-          unless security_group['servers'].empty?
-            raise_conflict('Group is in use. You cannot delete it.')
-          end
+          raise_conflict('Group is in use. You cannot delete it.') unless security_group['servers'].empty?
 
-          if security_group['organization_default']
-            raise_conflict('Group is default group. You cannot delete it.')
-          end
+          raise_conflict('Group is default group. You cannot delete it.') if security_group['organization_default']
 
           data[:security_groups].delete(security_group['id'])
 

@@ -84,9 +84,7 @@ module Fog
           dynamic_ip_required = !public_ip && body.fetch('dynamic_ip_required', true)
 
           enable_ipv6 = body.fetch('enable_ipv6', false)
-          if enable_ipv6 && !product_server['network']['ipv6_support']
-            raise_invalid_request_error("Cannot enable ipv6 on #{commercial_type}")
-          end
+          raise_invalid_request_error("Cannot enable ipv6 on #{commercial_type}") if enable_ipv6 && !product_server['network']['ipv6_support']
 
           if body['security_group']
             security_group = lookup(:security_groups, body['security_group'])

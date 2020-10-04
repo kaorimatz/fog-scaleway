@@ -41,7 +41,7 @@ class TestServer < Minitest::Test
   def test_poweron
     @server.save
 
-    @server.poweron(false)
+    @server.poweron(async: false)
 
     assert @server.state == 'running'
   end
@@ -49,9 +49,9 @@ class TestServer < Minitest::Test
   def test_poweroff
     @server.save
 
-    @server.poweron(false)
+    @server.poweron(async: false)
 
-    @server.poweroff(false)
+    @server.poweroff(async: false)
 
     assert @server.state == 'stopped'
   end
@@ -59,9 +59,9 @@ class TestServer < Minitest::Test
   def test_reboot
     @server.save
 
-    @server.poweron(false)
+    @server.poweron(async: false)
 
-    @server.reboot(false)
+    @server.reboot(async: false)
 
     assert @server.state == 'running'
   end
@@ -69,9 +69,9 @@ class TestServer < Minitest::Test
   def test_terminate
     @server.save
 
-    @server.poweron(false)
+    @server.poweron(async: false)
 
-    @server.terminate(false)
+    @server.terminate(async: false)
 
     assert_nil @servers.get(@server.identity)
   end

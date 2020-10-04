@@ -126,8 +126,8 @@ module Fog
 
         def request(params)
           client.request(params)
-        rescue Excon::Errors::HTTPStatusError => error
-          decoded = Fog::Scaleway::Errors.decode_error(error)
+        rescue Excon::Errors::HTTPStatusError => e
+          decoded = Fog::Scaleway::Errors.decode_error(e)
           raise if decoded.nil?
 
           type    = decoded[:type]
@@ -135,11 +135,11 @@ module Fog
 
           raise case type
                 when 'invalid_request_error', 'invalid_auth', 'authorization_required', 'unknown_resource', 'conflict'
-                  Fog::Scaleway::Compute.const_get(camelize(type)).slurp(error, message)
+                  Fog::Scaleway::Compute.const_get(camelize(type)).slurp(e, message)
                 when 'api_error'
-                  Fog::Scaleway::Compute::APIError.slurp(error, message)
+                  Fog::Scaleway::Compute::APIError.slurp(e, message)
                 else
-                  Fog::Scaleway::Compute::Error.slurp(error, message)
+                  Fog::Scaleway::Compute::Error.slurp(e, message)
                 end
         end
 

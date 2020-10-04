@@ -14,7 +14,7 @@ module Fog
           end
 
           servers_by_types = data[:servers].group_by { |s| s['commercial_type'] }
-          servers_count_by_types = Hash[servers_by_types.map { |t, s| [t, s.size] }]
+          servers_count_by_types = servers_by_types.transform_values(&:size)
 
           ips_unused = data[:ips].reject { |ip| ip['server'] }.size
 

@@ -34,7 +34,7 @@ module Fog
 
           server = create(defaults.merge(new_attributes))
 
-          server.poweron(false)
+          server.poweron(async: false)
 
           server.wait_for { sshable? }
 

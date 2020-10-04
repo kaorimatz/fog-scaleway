@@ -14,9 +14,7 @@ module Fog
           data[:images].delete(image['id'])
 
           data[:servers].each_value do |server|
-            if server['image'] && server['image']['id'] == image['id']
-              server['image'] = nil
-            end
+            server['image'] = nil if server['image'] && server['image']['id'] == image['id']
           end
 
           response(status: 204)

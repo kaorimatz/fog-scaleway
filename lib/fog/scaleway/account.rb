@@ -54,8 +54,8 @@ module Fog
 
         def request(params)
           client.request(params)
-        rescue Excon::Errors::HTTPStatusError => error
-          decoded = Fog::Scaleway::Errors.decode_error(error)
+        rescue Excon::Errors::HTTPStatusError => e
+          decoded = Fog::Scaleway::Errors.decode_error(e)
           raise if decoded.nil?
 
           type    = decoded[:type]
@@ -63,11 +63,11 @@ module Fog
 
           raise case type
                 when 'invalid_request_error', 'invalid_auth', 'unknown_resource', 'authorization_required'
-                  Fog::Scaleway::Account.const_get(camelize(type)).slurp(error, message)
+                  Fog::Scaleway::Account.const_get(camelize(type)).slurp(e, message)
                 when 'api_error'
-                  Fog::Scaleway::Account::APIError.slurp(error, message)
+                  Fog::Scaleway::Account::APIError.slurp(e, message)
                 else
-                  Fog::Scaleway::Account::Error.slurp(error, message)
+                  Fog::Scaleway::Account::Error.slurp(e, message)
                 end
         end
 
@@ -276,9 +276,7 @@ module Fog
 
           type, key, comment = ssh_public_key.split(' ', 3)
 
-          unless type == 'ssh-rsa'
-            raise ArgumentError, "Unsupported public key format: #{type}"
-          end
+          raise ArgumentError, "Unsupported public key format: #{type}" unless type == 'ssh-rsa'
 
           size = decode_public_key(Base64.decode64(key)).last.num_bytes * 8
 

@@ -24,9 +24,7 @@ module Fog
               server['location'] = nil
               server['private_ip'] = nil
 
-              if server['public_ip'] && server['public_ip']['dynamic']
-                server['public_ip'] = nil
-              end
+              server['public_ip'] = nil if server['public_ip'] && server['public_ip']['dynamic']
 
               server['state'] = 'stopped'
               server['state_detail'] = ''

@@ -3,10 +3,10 @@ module Fog
     module Errors
       def self.decode_error(error)
         body = begin
-                 Fog::JSON.decode(error.response.body)
-               rescue Fog::JSON::DecodeError
-                 nil
-               end
+          Fog::JSON.decode(error.response.body)
+        rescue Fog::JSON::DecodeError
+          nil
+        end
 
         return if body.nil?
 
