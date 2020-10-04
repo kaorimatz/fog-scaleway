@@ -13,9 +13,7 @@ module Fog
 
           security_group = lookup(:security_groups, security_group_id)
 
-          if body['organization_default'] && default_security_group
-            raise_conflict('Cannot have more than one organization default group')
-          end
+          raise_conflict('Cannot have more than one organization default group') if body['organization_default'] && default_security_group
 
           security_group['description'] = body['description']
           security_group['enable_default_security'] = body['enable_default_security']

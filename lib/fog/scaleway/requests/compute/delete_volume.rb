@@ -11,16 +11,12 @@ module Fog
         def delete_volume(volume_id)
           volume = lookup(:volumes, volume_id)
 
-          if volume['server']
-            raise_invalid_request_error('a server is attached to this volume')
-          end
+          raise_invalid_request_error('a server is attached to this volume') if volume['server']
 
           data[:volumes].delete(volume_id)
 
           data[:snapshots].each_value do |snapshot|
-            if snapshot['base_volume'] && snapshot['base_volume']['id'] == volume_id
-              snapshot['base_volume'] = nil
-            end
+            snapshot['base_volume'] = nil if snapshot['base_volume'] && snapshot['base_volume']['id'] == volume_id
           end
 
           response(status: 204)

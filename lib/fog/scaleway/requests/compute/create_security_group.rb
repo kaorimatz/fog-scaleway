@@ -35,9 +35,7 @@ module Fog
             'name' => body['name']
           }
 
-          if security_group['organization_default'] && default_security_group
-            raise_conflict('Cannot have more than one organization default group')
-          end
+          raise_conflict('Cannot have more than one organization default group') if security_group['organization_default'] && default_security_group
 
           data[:security_groups][security_group['id']] = security_group
 

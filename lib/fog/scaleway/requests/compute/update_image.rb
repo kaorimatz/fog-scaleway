@@ -13,9 +13,10 @@ module Fog
 
           image = lookup(:images, image_id)
 
-          default_bootscript = if body['default_bootscript'].is_a?(Hash)
+          default_bootscript = case body['default_bootscript']
+                               when Hash
                                  lookup(:bootscripts, body['default_bootscript']['id'])
-                               elsif body['default_bootscript'].is_a?(String)
+                               when String
                                  lookup(:bootscripts, body['default_bootscript'])
                                end
 

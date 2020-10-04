@@ -11,9 +11,7 @@ module Fog
         def delete_server(server_id)
           server = lookup(:servers, server_id)
 
-          if server['state'] != 'stopped'
-            raise_invalid_request_error('server should be stopped')
-          end
+          raise_invalid_request_error('server should be stopped') if server['state'] != 'stopped'
 
           data[:servers].delete(server['id'])
 

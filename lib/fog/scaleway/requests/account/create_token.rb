@@ -3,9 +3,7 @@ module Fog
     class Account
       class Real
         def create_token(options = {})
-          if @email.nil?
-            raise ArgumentError, 'email is required to create a token'
-          end
+          raise ArgumentError, 'email is required to create a token' if @email.nil?
 
           body = {
             email: @email
@@ -19,9 +17,7 @@ module Fog
 
       class Mock
         def create_token(options = {})
-          if @email.nil?
-            raise ArgumentError, 'email is required to create a token'
-          end
+          raise ArgumentError, 'email is required to create a token' if @email.nil?
 
           body = {
             email: @email
@@ -38,9 +34,7 @@ module Fog
           raise_invalid_auth('Invalid credentials') unless user
 
           expires = nil
-          if body['expires'] != false
-            expires = (Time.now + 30 * 60).utc.strftime(TIME_FORMAT)
-          end
+          expires = (Time.now + 30 * 60).utc.strftime(TIME_FORMAT) if body['expires'] != false
 
           token = {
             'user_id' => user['id'],

@@ -73,7 +73,7 @@ module Fog
         end
 
         def volumes=(value)
-          attributes[:volumes] = Hash[value.map { |i, v| [i, to_volume(v)] }]
+          attributes[:volumes] = value.transform_values { |v| to_volume(v) }
         end
 
         def public_dns_name
@@ -103,31 +103,31 @@ module Fog
           true
         end
 
-        def poweron(async = true)
+        def poweron(async: true)
           requires :identity
 
-          execute_action('poweron', async)
+          execute_action('poweron', async: async)
         end
 
-        def poweroff(async = true)
+        def poweroff(async: true)
           requires :identity
 
-          execute_action('poweroff', async)
+          execute_action('poweroff', async: async)
         end
 
-        def reboot(async = true)
+        def reboot(async: true)
           requires :identity
 
-          execute_action('reboot', async)
+          execute_action('reboot', async: async)
         end
 
-        def terminate(async = true)
+        def terminate(async: true)
           requires :identity
 
-          execute_action('terminate', async)
+          execute_action('terminate', async: async)
         end
 
-        def execute_action(action, async = true)
+        def execute_action(action, async: true)
           requires :identity
 
           if (task = service.execute_server_action(identity, action).body['task'])
@@ -153,7 +153,7 @@ module Fog
         end
 
         def public_ip_address
-          public_ip.address if public_ip
+          public_ip&.address
         end
 
         def private_ip_address

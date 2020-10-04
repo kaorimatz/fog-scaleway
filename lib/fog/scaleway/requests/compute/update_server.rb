@@ -13,17 +13,16 @@ module Fog
 
           server = lookup(:servers, server_id)
 
-          bootscript = if body['bootscript'].is_a?(Hash)
+          bootscript = case body['bootscript']
+                       when Hash
                          lookup(:bootscripts, body['bootscript']['id'])
-                       elsif body['bootscript'].is_a?(String)
+                       when String
                          lookup(:bootscripts, body['bootscript'])
                        end
 
           _, product_server = lookup_product_server(server['commercial_type'])
 
-          if body['enable_ipv6'] && !product_server['network']['ipv6_support']
-            raise_invalid_request_error("Cannot enable ipv6 on #{commercial_type}")
-          end
+          raise_invalid_request_error("Cannot enable ipv6 on #{commercial_type}") if body['enable_ipv6'] && !product_server['network']['ipv6_support']
 
           volumes = {}
           body['volumes'].each do |index, volume|

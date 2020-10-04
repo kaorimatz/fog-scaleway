@@ -3,9 +3,7 @@ module Fog
     class Compute
       class Real
         def create_volume(name, volume_type, options)
-          if options[:size].nil? && options[:base_volume].nil? && options[:base_snapshot].nil?
-            raise ArgumentError, 'size, base_volume or base_snapshot are required to create a volume'
-          end
+          raise ArgumentError, 'size, base_volume or base_snapshot are required to create a volume' if options[:size].nil? && options[:base_volume].nil? && options[:base_snapshot].nil?
 
           body = {
             organization: @organization,
@@ -27,9 +25,7 @@ module Fog
 
       class Mock
         def create_volume(name, volume_type, options)
-          if options[:size].nil? && options[:base_volume].nil? && options[:base_snapshot].nil?
-            raise ArgumentError, 'size, base_volume or base_snapshot are required to create a volume'
-          end
+          raise ArgumentError, 'size, base_volume or base_snapshot are required to create a volume' if options[:size].nil? && options[:base_volume].nil? && options[:base_snapshot].nil?
 
           body = {
             organization: @organization,

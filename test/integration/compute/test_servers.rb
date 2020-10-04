@@ -46,23 +46,23 @@ class TestServers < Minitest::Test
 
     assert_equal 'stopped', server.state
 
-    server.poweron(false)
+    server.poweron(async: false)
 
     assert_equal 'running', server.state
 
-    server.poweroff(false)
+    server.poweroff(async: false)
 
     assert_equal 'stopped', server.state
 
-    server.poweron(false)
+    server.poweron(async: false)
 
     assert_equal 'running', server.state
 
-    server.reboot(false)
+    server.reboot(async: false)
 
     assert_equal 'running', server.state
 
-    server.terminate(false)
+    server.terminate(async: false)
 
     assert_nil @servers.get(server.identity)
   end
@@ -118,7 +118,7 @@ class TestServers < Minitest::Test
       assert_match(/Linux/, result.stdout)
     end
 
-    server.terminate(false)
+    server.terminate(async: false)
 
     server.public_ip.destroy
 

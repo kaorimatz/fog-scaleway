@@ -11,9 +11,7 @@ module Fog
         def delete_security_group_rule(security_group_id, rule_id)
           security_group = lookup(:security_groups, security_group_id)
 
-          unless data[:security_group_rules][security_group['id']].delete(rule_id)
-            raise_unknown_resource(rule_id)
-          end
+          raise_unknown_resource(rule_id) unless data[:security_group_rules][security_group['id']].delete(rule_id)
 
           response(status: 204)
         end

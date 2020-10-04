@@ -15,9 +15,7 @@ module Fog
             image['root_volume']['id'] == snapshot['id']
           end
 
-          if in_use
-            raise_invalid_request_error('one or more images are attached to this snapshot')
-          end
+          raise_invalid_request_error('one or more images are attached to this snapshot') if in_use
 
           data[:snapshots].delete(snapshot['id'])
 
