@@ -120,7 +120,7 @@ module Fog
         def initialize(options)
           @token              = options[:scaleway_token]
           @organization       = options[:scaleway_organization]
-          @region             = options[:scaleway_region] || 'par1'
+          @region             = options[:scaleway_region] || 'fr-par-1'
           @connection_options = options[:connection_options] || {}
         end
 
@@ -146,11 +146,19 @@ module Fog
         private
 
         def client
-          @client ||= Fog::Scaleway::Client.new(endpoint, @token, @connection_options)
+          @client ||= Fog::Scaleway::Client.new(endpoint, @token, connection_options)
         end
 
         def endpoint
-          "https://cp-#{@region}.scaleway.com"
+          'https://api.scaleway.com'
+        end
+
+        def connection_options
+          @connection_options.merge(path_prefix: path_prefix)
+        end
+
+        def path_prefix
+          "/instance/v1/zones/#{@region}"
         end
 
         def camelize(str)
