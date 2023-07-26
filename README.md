@@ -26,7 +26,7 @@ Put your credentials to the fog configuration file:
 default:
   scaleway_organization: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx # Your organization ID
   scaleway_token: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx        # Your token
-  scaleway_region: par1                                       # par1 or ams1
+  scaleway_zone: fr-par-1                                     # Your zone
 ```
 
 Create a connection to the service:

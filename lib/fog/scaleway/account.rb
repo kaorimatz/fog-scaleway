@@ -74,7 +74,7 @@ module Fog
         private
 
         def client
-          @client ||= Fog::Scaleway::Client.new('https://account.scaleway.com', @token, @connection_options)
+          @client ||= Fog::Scaleway::Client.new('https://api.scaleway.com/account/v1', @token, @connection_options)
         end
 
         def camelize(str)
